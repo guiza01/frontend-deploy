@@ -43,15 +43,17 @@ const projects = [
 ];
 
 export default function AdminPanel() {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selected, setSelected] = useState([]);
-    const [menuCategories, setMenuCategories] = useState({
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [selected, setSelected] = useState<number[]>([]);
+    const [menuCategories, setMenuCategories] = useState<{
+        [key: string]: string[];
+    }>({
         "Segmentos de Negócio": ["Medicina", "Veterinário"],
         "Tecnologias": ["ASP.NET", "Next.JS"],
         "Plataforma": ["WEB", "MOBILE"],
     });
-    const [activeCategory, setActiveCategory] = useState(null);
-    const [newSubcategory, setNewSubcategory] = useState("");
+    const [activeCategory, setActiveCategory] = useState<string | null>(null);
+    const [newSubcategory, setNewSubcategory] = useState<string>("");
     const router = useRouter();
 
     const handleCategoryClick = (category: string) => {
@@ -62,24 +64,26 @@ export default function AdminPanel() {
         if (newSubcategory.trim() && activeCategory) {
             setMenuCategories((prev) => ({
                 ...prev,
-                [activeCategory]: [...prev[activeCategory], newSubcategory],
+                [activeCategory]: [...(prev[activeCategory] || []), newSubcategory],
             }));
             setNewSubcategory("");
         }
     };
 
-    const handleSelect = (id) => {
+    const handleSelect = (id: number) => {
         setSelected((prevSelected) =>
-            prevSelected.includes(id) ? prevSelected.filter((selectedId) => selectedId !== id) : [...prevSelected, id]
+            prevSelected.includes(id)
+                ? prevSelected.filter((selectedId) => selectedId !== id)
+                : [...prevSelected, id]
         );
     };
 
-    const handleImageUpload = (projectId) => {
+    const handleImageUpload = (projectId: number) => {
         const input = document.createElement("input");
         input.type = "file";
         input.accept = "image/*";
         input.onchange = (event) => {
-            const file = event.target.files[0];
+            const file = (event.target as HTMLInputElement)?.files?.[0];
             if (file) {
                 console.log(`Imagem selecionada para o projeto ${projectId}:`, file);
                 // Adicionar lógica de upload aqui
@@ -159,8 +163,11 @@ export default function AdminPanel() {
                                     <td>{project.segment}</td>
                                     <td>{project.platform}</td>
                                     <td>
-                                        {project.languages.map((lang) => (
-                                            <span key={lang} className="admin-language">
+                                        {project.languages.map((lang, index) => (
+                                            <span
+                                                key={`${project.id}-${lang}-${index}`}
+                                                className="admin-language"
+                                            >
                                                 {lang}
                                             </span>
                                         ))}
@@ -176,7 +183,7 @@ export default function AdminPanel() {
                                 </tr>
                             ))}
                             <tr>
-                                <td colSpan="6">
+                                <td colSpan={6}>
                                     <div className="admin-footer flex justify-between mt-1">
                                         <button className="admin-footer-button">Anterior</button>
                                         <span>Página 1 de 10</span>
@@ -225,7 +232,7 @@ export default function AdminPanel() {
                                                 </td>
                                             </tr>
                                             {menuCategories[category].map((subcategory, index) => (
-                                                <tr key={index}>
+                                                <tr key={`${category}-${subcategory}-${index}`}>
                                                     <td className="subcategory">{subcategory}</td>
                                                 </tr>
                                             ))}

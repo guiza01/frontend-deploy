@@ -9,8 +9,9 @@ export default function NewProject() {
         plataformas: false,
     });
 
-    const toggleCategory = (category) =>
+    const toggleCategory = (category: keyof typeof categories) => {
         setCategories((prev) => ({ ...prev, [category]: !prev[category] }));
+    };
 
     const nextStep = () => setStep((prevStep) => Math.min(prevStep + 1, 2));
     const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 1));
@@ -58,15 +59,15 @@ export default function NewProject() {
                         Categoria de menu
                     </label>
                     <div className="checkbox-categories">
-                        {["segmento", "tecnologia", "plataforma"].map((category) => (
+                        {(Object.keys(categories) as Array<keyof typeof categories>).map((category) => (
                             <div key={category} className="checkbox-item">
                                 <input
                                     type="checkbox"
-                                    id={category}
+                                    id={`category-${category}`}
                                     checked={categories[category]}
                                     onChange={() => toggleCategory(category)}
                                 />
-                                <label htmlFor={category} className="checkbox-label">
+                                <label htmlFor={`category-${category}`} className="checkbox-label">
                                     {category.charAt(0).toUpperCase() + category.slice(1)}
                                 </label>
                             </div>
@@ -80,70 +81,40 @@ export default function NewProject() {
                         <div className="checkbox-group">
                             <h3>Segmentos</h3>
                             <div className="checkbox-container">
-                                <div>
-                                    <input type="checkbox" id="item1" />
-                                    <label htmlFor="item1">Item 1</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item2" />
-                                    <label htmlFor="item2">Item 2</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item3" />
-                                    <label htmlFor="item3">Item 3</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item4" />
-                                    <label htmlFor="item4">Item 4</label>
-                                </div>
+                                {["item 1", "item 2", "item 3", "item 4"].map((item) => (
+                                    <div key={item}>
+                                        <input type="checkbox" id={`segmento-${item}`} />
+                                        <label htmlFor={`segmento-${item}`}>{item}</label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )}
 
-                    {categories.tecnologia && (
+                    {categories.tecnologias && (
                         <div className="checkbox-group">
                             <h3>Tecnologias</h3>
                             <div className="checkbox-container">
-                                <div>
-                                    <input type="checkbox" id="item1" />
-                                    <label htmlFor="item1">Item 1</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item2" />
-                                    <label htmlFor="item2">Item 2</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item3" />
-                                    <label htmlFor="item3">Item 3</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item4" />
-                                    <label htmlFor="item4">Item 4</label>
-                                </div>
+                                {["item 1", "item 2", "item 3", "item 4"].map((item) => (
+                                    <div key={item}>
+                                        <input type="checkbox" id={`tecnologia-${item}`} />
+                                        <label htmlFor={`tecnologia-${item}`}>{item}</label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )}
 
-                    {categories.plataforma && (
+                    {categories.plataformas && (
                         <div className="checkbox-group">
                             <h3>Plataformas</h3>
                             <div className="checkbox-container">
-                                <div>
-                                    <input type="checkbox" id="item1" />
-                                    <label htmlFor="item1">Item 1</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item2" />
-                                    <label htmlFor="item2">Item 2</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item3" />
-                                    <label htmlFor="item3">Item 3</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="item4" />
-                                    <label htmlFor="item4">Item 4</label>
-                                </div>
+                                {["item 1", "item 2", "item 3", "item 4"].map((item) => (
+                                    <div key={item}>
+                                        <input type="checkbox" id={`plataforma-${item}`} />
+                                        <label htmlFor={`plataforma-${item}`}>{item}</label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )}
