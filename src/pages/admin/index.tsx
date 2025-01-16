@@ -54,7 +54,7 @@ export default function AdminPanel() {
     const [newSubcategory, setNewSubcategory] = useState("");
     const router = useRouter();
 
-    const handleCategoryClick = (category) => {
+    const handleCategoryClick = (category: string) => {
         setActiveCategory((prev) => (prev === category ? null : category));
     };
 
